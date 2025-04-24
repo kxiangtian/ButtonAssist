@@ -7,6 +7,8 @@
 #Include CompareGui.ahk
 #Include CoordGui.ahk
 #Include InputGui.ahk
+#Include FindColorGui.ahk
+#Include ImageSearchGui.ahk
 
 class MacroGui {
     __new() {
@@ -70,6 +72,12 @@ class MacroGui {
         this.InputGui := InputGui()
         this.InputGui.SureBtnAction := (CommandStr) => this.OnSubGuiSureBtnClick(CommandStr)
         this.SubGuiMap.Set("输入", this.InputGui)
+
+        this.ImageSearchGui := ImageSearchGui()
+        this.ImageSearchGui.SureBtnAction := (CommandStr) => this.OnSubGuiSureBtnClick(CommandStr)
+
+        this.FindColorGui := FindColorGui()
+        this.FindColorGui.SureBtnAction := (CommandStr) => this.OnSubGuiSureBtnClick(CommandStr)
     }
 
     GetSubGuiSymbol(subGui) {
@@ -169,6 +177,16 @@ class MacroGui {
         btnCon.SetFont((Format("S{} W{} Q{}", 12, 400, 5)))
         btnCon.OnEvent("Click", (*) => this.OnOpenSubGui(this.CoordGui))
         this.CmdBtnConMap.Set("坐标", btnCon)
+
+        PosX += 150
+        btnCon := MyGui.Add("Button", Format("x{} y{} h{} w{} center", PosX, PosY, 40, 100), "图片搜索")
+        btnCon.OnEvent("Click", (*) => this.ImageSearchGui.ShowGui())
+        this.AllCommandBtnCon.Push(btnCon)
+
+        PosX += 150
+        btnCon := MyGui.Add("Button", Format("x{} y{} h{} w{} center", PosX, PosY, 40, 100), "颜色搜索")
+        btnCon.OnEvent("Click", (*) => this.FindColorGui.ShowGui())
+        this.AllCommandBtnCon.Push(btnCon)
 
         PosX := 20
         PosY += 140
